@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Myipdom</string>
+    <string name="txtKrug">Круг</string>
+    <string name="txtKvadrat">Квадрат</string>
+    <string name="txtRomb">Ромб</string>
+    <string name="txtParallelogramm">Параллелограмм</string>
+    <string name="txtTreugolnik">Треугольник</string>
+    <string name="txtPryamougolnyyTreugolnik">Прямоугольный треугольник</string>
+    <string name="txtPryamougolnik">Прямоугольник</string>
+    <string name="txtTrapetsiya">Трапеция</string>
+    <string name="txtRezhim">Режим строительства</string>
+    <string name="txtReshenie">Решение</string>
+    <string name="txtOGF">Основные геометриеские фигуры</string>
+    <string name="txt">вычислить</string>
+    <string name="txtfigura">выбрать другую фигуру</string>
+    <string name="txtznachenie">ввести другие значения</string>
+    <string name="txtvvod">(ввидите известные данные)</string>
+    <string name="txtnazad">назад</string>
+</resources>

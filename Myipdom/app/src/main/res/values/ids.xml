@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <item name="y_treugolnik" type="id" />
+    <item name="button5" type="id" />
+    <item name="R_treugolnik" type="id" />
+    <item name="h_treugolnik" type="id" />
+    <item name="p_treugolnik" type="id" />
+    <item name="r_treugolnik" type="id" />
+    <item name="c_treugolnik" type="id" />
+    <item name="b_treugolnik" type="id" />
+    <item name="a_treugolnik" type="id" />
+    <item name="textView14" type="id" />
+    <item name="textView13" type="id" />
+</resources>

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "1001901474568",
+    "firebase_url": "https://myipdom-b7c1b-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "myipdom-b7c1b",
+    "storage_bucket": "myipdom-b7c1b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001901474568:android:ca7d1776d3fe27533da2bd",
+        "android_client_info": {
+          "package_name": "com.example.myipdom"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001901474568-2f0df4c59c0o5ut2va0gfd3s9q7k309a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAan5P7N-TlcgEcLeoZqoAT-czgvUhdSDI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001901474568-2f0df4c59c0o5ut2va0gfd3s9q7k309a.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
