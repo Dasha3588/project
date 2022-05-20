@@ -14,6 +14,6 @@
     <string name="txt">вычислить</string>
     <string name="txtfigura">выбрать другую фигуру</string>
     <string name="txtznachenie">ввести другие значения</string>
-    <string name="txtvvod">(ввидите известные данные)</string>
+    <string name="txtvvod">(введите известные данные)</string>
     <string name="txtnazad">назад</string>
 </resources>
