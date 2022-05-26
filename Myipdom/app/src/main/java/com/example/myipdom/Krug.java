@@ -58,13 +58,15 @@ public class Krug extends AppCompatActivity {
                         l = Double.parseDouble(v);
                         krugL(l);
                     }
-                    if (s_krug!=0){
+                    //если площадь посчитанна
+                    if (s_krug>0){
                         //передача данных в другую активность
                         reshenie_krug.putExtra("s_krug", s_krug);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_krug);
                         finish();
                     }
+                    //иначе
                     else {
                         Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
                         toast.show();

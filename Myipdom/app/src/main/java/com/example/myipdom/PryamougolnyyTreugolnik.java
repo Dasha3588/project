@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,14 +18,15 @@ public class PryamougolnyyTreugolnik extends AppCompatActivity {
     private double a,b; //переменные в которые зписываются катеты прямоугольного треугольника
     private String v; //временная переменная
     Intent reshenie_pryamougolnyy_treugolnik; //новая активность
+    EditText a_pryamougolnyy_treugolnik, b_pryamougolnyy_treugolnik; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pryamougolnyy_treugolnik);
         //связывание элементов по id
-        EditText a_pryamougolnyy_treugolnik = (EditText) findViewById(R.id.a_pryamougolnyy_treugolnik);
-        EditText b_pryamougolnyy_treugolnik = (EditText) findViewById(R.id.b_pryamougolnyy_treugolnik);
+        a_pryamougolnyy_treugolnik = (EditText) findViewById(R.id.a_pryamougolnyy_treugolnik);
+        b_pryamougolnyy_treugolnik = (EditText) findViewById(R.id.b_pryamougolnyy_treugolnik);
         Button button7 = (Button) findViewById (R.id.button7);
         Button back7 = (Button) findViewById(R.id.back7);
         reshenie_pryamougolnyy_treugolnik = new Intent(PryamougolnyyTreugolnik.this, Reshenie.class); //создание новой активности
@@ -47,16 +49,21 @@ public class PryamougolnyyTreugolnik extends AppCompatActivity {
                         b = Double.parseDouble(v);
                         pryamougolnyyTreugolnikAB(a, b);
                     }
-                    if (s_pryamougolnyy_treugolnik!=0){
+                    //если площадь посчитанна
+                    if (s_pryamougolnyy_treugolnik>0){
                         //передача данных в другую активность
                         reshenie_pryamougolnyy_treugolnik.putExtra("s_pryamougolnyy_treugolnik", s_pryamougolnyy_treugolnik);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_pryamougolnyy_treugolnik);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (a_pryamougolnyy_treugolnik.getText().toString().isEmpty() || b_pryamougolnyy_treugolnik.getText().toString().isEmpty()) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите катет", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        }
                     }
                 }
             }
@@ -95,5 +102,12 @@ public class PryamougolnyyTreugolnik extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (a_pryamougolnyy_treugolnik.getText().toString().isEmpty() || b_pryamougolnyy_treugolnik.getText().toString().isEmpty()) {
+            a_pryamougolnyy_treugolnik.setHintTextColor(Color.RED);
+            b_pryamougolnyy_treugolnik.setHintTextColor(Color.RED);
+        }
     }
 }

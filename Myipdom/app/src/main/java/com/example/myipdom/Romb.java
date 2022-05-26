@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,18 +18,19 @@ public class Romb extends AppCompatActivity {
     private double a, h, d1, d2, p, y; //переменные в которые зписываются сторона, высота, диагонали, периметр, угол между диагоналями ромба
     private String v; //временная переменная
     Intent reshenie_romb; //новая активность
+    EditText a_romb, h_romb, d1_romb, d2_romb, p_romb, y_romb; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_romb);
         //связывание элементов по id
-        EditText a_romb = (EditText) findViewById(R.id.a_romb);
-        EditText  h_romb = (EditText) findViewById(R.id.h_romb);
-        EditText  d1_romb = (EditText) findViewById(R.id.d1_romb);
-        EditText  d2_romb = (EditText) findViewById(R.id.d2_romb);
-        EditText  p_romb = (EditText) findViewById(R.id.p_romb);
-        EditText  y_romb = (EditText) findViewById(R.id.y_romb);
+        a_romb = (EditText) findViewById(R.id.a_romb);
+        h_romb = (EditText) findViewById(R.id.h_romb);
+        d1_romb = (EditText) findViewById(R.id.d1_romb);
+        d2_romb = (EditText) findViewById(R.id.d2_romb);
+        p_romb = (EditText) findViewById(R.id.p_romb);
+        y_romb = (EditText) findViewById(R.id.y_romb);
         Button button4 = (Button) findViewById (R.id.button4);
         Button back4 = (Button) findViewById(R.id.back4);
         reshenie_romb = new Intent(Romb.this, Reshenie.class); //создание новой активности
@@ -74,7 +76,7 @@ public class Romb extends AppCompatActivity {
                         }
                         rombAY(a,y);
                     }
-                    if (d1_romb.getText().toString().isEmpty() || d1_romb.getText().toString().isEmpty()){
+                    if (d1_romb.getText().toString().isEmpty() || d2_romb.getText().toString().isEmpty()){
                     } else if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
                         v = d1_romb.getText().toString();
                         d1 = Double.parseDouble(v);
@@ -109,16 +111,44 @@ public class Romb extends AppCompatActivity {
                         }
                         rombPY(p,y);
                     }
-                    if (s_romb!=0){
+                    //если площадь посчитанна
+                    if (s_romb>0){
                         //передача данных в другую активность
                         reshenie_romb.putExtra("s_romb", s_romb);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_romb);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (h_romb.getText().toString().isEmpty() && d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или угол между сторонами", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && d1_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_romb.getText().toString().isEmpty() && d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону или периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону или периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или угол между сторонами", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -189,5 +219,28 @@ public class Romb extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+            a_romb.setHintTextColor(Color.RED);
+            h_romb.setHintTextColor(Color.RED);
+        }
+        if (d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty()){
+            a_romb.setHintTextColor(Color.RED);
+            y_romb.setHintTextColor(Color.RED);
+        }
+        if (a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty() && p_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+            d1_romb.setHintTextColor(Color.RED);
+            d2_romb.setHintTextColor(Color.RED);
+        }
+        if (d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && a_romb.getText().toString().isEmpty() && y_romb.getText().toString().isEmpty()){
+            p_romb.setHintTextColor(Color.RED);
+            h_romb.setHintTextColor(Color.RED);
+        }
+        if (d1_romb.getText().toString().isEmpty() && d2_romb.getText().toString().isEmpty() && a_romb.getText().toString().isEmpty() && h_romb.getText().toString().isEmpty()){
+            p_romb.setHintTextColor(Color.RED);
+            y_romb.setHintTextColor(Color.RED);
+        }
     }
 }

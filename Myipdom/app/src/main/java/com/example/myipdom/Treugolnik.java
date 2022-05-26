@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,20 +18,21 @@ public class Treugolnik extends AppCompatActivity {
     private double a, b, c, h, rR, r, pP, p, y; //переменные в которые зписываются стороны, высота, радиус описанной окружности, радиус вписанной окружности, полупериметр, периметр, угол между сторонами треугольника
     private String v; //временная переменная
     public Intent reshenie_treugolnik; //новая активность
+    EditText a_treugolnik, b_treugolnik, c_treugolnik, h_treugolnik, pP_treugolnik, r_treugolnik, rR_treugolnik, y_treugolnik; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_treugolnik);
         //связывание элементов по id
-        EditText a_treugolnik = (EditText) findViewById(R.id.a_treugolnik);
-        EditText b_treugolnik = (EditText) findViewById(R.id.b_treugolnik);
-        EditText c_treugolnik = (EditText) findViewById(R.id.c_treugolnik);
-        EditText h_treugolnik = (EditText) findViewById(R.id.h_treugolnik);
-        EditText pP_treugolnik = (EditText) findViewById(R.id.p_treugolnik);
-        EditText r_treugolnik = (EditText) findViewById(R.id.r_treugolnik);
-        EditText rR_treugolnik = (EditText) findViewById(R.id.R_treugolnik);
-        EditText y_treugolnik = (EditText) findViewById(R.id.y_treugolnik);
+        a_treugolnik = (EditText) findViewById(R.id.a_treugolnik);
+        b_treugolnik = (EditText) findViewById(R.id.b_treugolnik);
+        c_treugolnik = (EditText) findViewById(R.id.c_treugolnik);
+        h_treugolnik = (EditText) findViewById(R.id.h_treugolnik);
+        pP_treugolnik = (EditText) findViewById(R.id.p_treugolnik);
+        r_treugolnik = (EditText) findViewById(R.id.r_treugolnik);
+        rR_treugolnik = (EditText) findViewById(R.id.R_treugolnik);
+        y_treugolnik = (EditText) findViewById(R.id.y_treugolnik);
         Button button5 = (Button) findViewById (R.id.button5);
         Button back5 = (Button) findViewById(R.id.back5);
         reshenie_treugolnik = new Intent(Treugolnik.this, Reshenie.class); //создание новой активности
@@ -136,16 +138,132 @@ public class Treugolnik extends AppCompatActivity {
                             treugolnikABY(a,c,y);
                         }
                     }
-                    if (s_treugolnik!=0){
+                    //если площадь посчитанна
+                    if (s_treugolnik>0){
                         //передача данных в другую активность
                         reshenie_treugolnik.putExtra("s_treugolnik", s_treugolnik);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_treugolnik);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или сторону и угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или сторону и угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или сторону и угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty()  && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите две стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны или радиус вписанной окружности", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между сторонами или стороны и периметр или стороны и радиус описанной окружности", Toast.LENGTH_LONG);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите радиус описанной окружности или периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (c_treugolnik.getText().toString().isEmpty() && h_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -226,5 +344,33 @@ public class Treugolnik extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (pP_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty() && (a_treugolnik.getText().toString().isEmpty() || b_treugolnik.getText().toString().isEmpty() || c_treugolnik.getText().toString().isEmpty())){
+            a_treugolnik.setHintTextColor(Color.RED);
+            h_treugolnik.setHintTextColor(Color.RED);
+        }
+        if (h_treugolnik.getText().toString().isEmpty() && a_treugolnik.getText().toString().isEmpty() && b_treugolnik.getText().toString().isEmpty() && c_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty()) {
+            r_treugolnik.setHintTextColor(Color.RED);
+            pP_treugolnik.setHintTextColor(Color.RED);
+        }
+        if (h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()){
+            a_treugolnik.setHintTextColor(Color.RED);
+            b_treugolnik.setHintTextColor(Color.RED);
+            c_treugolnik.setHintTextColor(Color.RED);
+            pP_treugolnik.setHintTextColor(Color.RED);
+        }
+        if (h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && y_treugolnik.getText().toString().isEmpty()) {
+            a_treugolnik.setHintTextColor(Color.RED);
+            b_treugolnik.setHintTextColor(Color.RED);
+            c_treugolnik.setHintTextColor(Color.RED);
+            rR_treugolnik.setHintTextColor(Color.RED);
+        }
+        if (h_treugolnik.getText().toString().isEmpty() && r_treugolnik.getText().toString().isEmpty() && pP_treugolnik.getText().toString().isEmpty() && rR_treugolnik.getText().toString().isEmpty() && ((a_treugolnik.getText().toString().isEmpty() || b_treugolnik.getText().toString().isEmpty()) && (a_treugolnik.getText().toString().isEmpty() || c_treugolnik.getText().toString().isEmpty()) && (b_treugolnik.getText().toString().isEmpty() || c_treugolnik.getText().toString().isEmpty()))) {
+            a_treugolnik.setHintTextColor(Color.RED);
+            b_treugolnik.setHintTextColor(Color.RED);
+            y_treugolnik.setHintTextColor(Color.RED);
+        }
     }
 }

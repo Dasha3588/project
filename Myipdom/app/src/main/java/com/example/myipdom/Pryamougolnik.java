@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,21 +18,22 @@ public class Pryamougolnik extends AppCompatActivity {
     private double a, b, d, p, e; //переменные в которые зписываются стороны, диагональ, периметр, угол между диагоналями прямоугольника
     private String v; //временная переменная
     public Intent reshenie_pryamougolnik; //новая активность
+    EditText a_pryamougolnik, b_pryamougolnik, d_pryamougolnik, p_pryamougolnik, e_pryamougolnik; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pryamougolnik);
         //связывание элементов по id
-        EditText a_pryamougolnik = (EditText) findViewById(R.id.a_pryamougolnik);
-        EditText b_pryamougolnik = (EditText) findViewById(R.id.b_pryamougolnik);
-        EditText d_pryamougolnik = (EditText) findViewById(R.id.d_pryamougolnik);
-        EditText p_pryamougolnik = (EditText) findViewById(R.id.p_pryamougolnik);
-        EditText e_pryamougolnik = (EditText) findViewById(R.id.e_pryamougolnik);
+        a_pryamougolnik = (EditText) findViewById(R.id.a_pryamougolnik);
+        b_pryamougolnik = (EditText) findViewById(R.id.b_pryamougolnik);
+        d_pryamougolnik = (EditText) findViewById(R.id.d_pryamougolnik);
+        p_pryamougolnik = (EditText) findViewById(R.id.p_pryamougolnik);
+        e_pryamougolnik = (EditText) findViewById(R.id.e_pryamougolnik);
         Button button2 = (Button) findViewById (R.id.button2);
         Button back2 = (Button) findViewById(R.id.back2);
         reshenie_pryamougolnik = new Intent(Pryamougolnik.this, Reshenie.class); //создание новой активности
-        //обрабатка нажатия на кнопку "вычислитить"
+        // обрабатка нажатия на кнопку "вычислитить"
         button2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -59,15 +61,15 @@ public class Pryamougolnik extends AppCompatActivity {
                         if (e == 30) {
                             e = 0.5;
                         } else if (e == 45) {
-                            e = (Math.sqrt(2))/2;
-                            e = e*100;
-                            e = (int)Math.round(e);
-                            e = e/100;
+                            e = (Math.sqrt(2)) / 2;
+                            e = e * 100;
+                            e = (int) Math.round(e);
+                            e = e / 100;
                         } else if (e == 60) {
-                            e = (Math.sqrt(3))/2;
-                            e = e*100;
-                            e = (int)Math.round(e);
-                            e = e/100;
+                            e = (Math.sqrt(3)) / 2;
+                            e = e * 100;
+                            e = (int) Math.round(e);
+                            e = e / 100;
                         } else {
                             e = 0;
                         }
@@ -87,16 +89,40 @@ public class Pryamougolnik extends AppCompatActivity {
                             pryamougolnilPA(p, a);
                         }
                     }
-                    if (s_pryamougolnik!=0){
+                    //если площадь посчитанна
+                    if (s_pryamougolnik > 0) {
                         //передача данных в другую активность
                         reshenie_pryamougolnik.putExtra("s_pryamougolnik", s_pryamougolnik);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_pryamougolnik);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (b_pryamougolnik.getText().toString().isEmpty() && d_pryamougolnik.getText().toString().isEmpty() && p_pryamougolnik.getText().toString().isEmpty() && e_pryamougolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону или периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_pryamougolnik.getText().toString().isEmpty() && d_pryamougolnik.getText().toString().isEmpty() && p_pryamougolnik.getText().toString().isEmpty() && e_pryamougolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону или периметр", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_pryamougolnik.getText().toString().isEmpty() && d_pryamougolnik.getText().toString().isEmpty() && b_pryamougolnik.getText().toString().isEmpty() && e_pryamougolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_pryamougolnik.getText().toString().isEmpty() && a_pryamougolnik.getText().toString().isEmpty() && b_pryamougolnik.getText().toString().isEmpty() && e_pryamougolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между диагоналями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor();
+                        } else if (a_pryamougolnik.getText().toString().isEmpty() && d_pryamougolnik.getText().toString().isEmpty() && b_pryamougolnik.getText().toString().isEmpty() && a_pryamougolnik.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -153,5 +179,21 @@ public class Pryamougolnik extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (d_pryamougolnik.getText().toString().isEmpty() && p_pryamougolnik.getText().toString().isEmpty() && e_pryamougolnik.getText().toString().isEmpty()) {
+            a_pryamougolnik.setHintTextColor(Color.RED);
+            b_pryamougolnik.setHintTextColor(Color.RED);
+        }
+        if (e_pryamougolnik.getText().toString().isEmpty() && d_pryamougolnik.getText().toString().isEmpty() && (a_pryamougolnik.getText().toString().isEmpty() || b_pryamougolnik.getText().toString().isEmpty())) {
+            a_pryamougolnik.setHintTextColor(Color.RED);
+            b_pryamougolnik.setHintTextColor(Color.RED);
+            p_pryamougolnik.setHintTextColor(Color.RED);
+        }
+        if (a_pryamougolnik.getText().toString().isEmpty() && p_pryamougolnik.getText().toString().isEmpty() && b_pryamougolnik.getText().toString().isEmpty()) {
+            e_pryamougolnik.setHintTextColor(Color.RED);
+            d_pryamougolnik.setHintTextColor(Color.RED);
+        }
     }
 }

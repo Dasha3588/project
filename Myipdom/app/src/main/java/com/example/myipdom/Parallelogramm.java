@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,19 +18,20 @@ public class Parallelogramm extends AppCompatActivity {
     private double a, b, h, d1, d2, e, y; //переменные в которые зписываются стороны, высота, диагонали, угол между диагоналями, угол между сторонами параллелограмма
     private String v; //временная переменная
     public Intent reshenie_parallelogramm; //новая активность
+    EditText a_parallelogramm, b_parallelogramm, h_parallelogramm, d1_parallelogramm, d2_parallelogramm, e_parallelogramm, y_parallelogramm; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_parallelogramm);
         //связывание элементов по id
-        EditText a_parallelogramm = (EditText) findViewById(R.id.a_parallelogramm);
-        EditText b_parallelogramm = (EditText) findViewById(R.id.b_parallelogramm);
-        EditText h_parallelogramm = (EditText) findViewById(R.id.h_parallelogramm);
-        EditText d1_parallelogramm = (EditText) findViewById(R.id.d1_parallelogramm);
-        EditText d2_parallelogramm = (EditText) findViewById(R.id.d2_parallelogramm);
-        EditText e_parallelogramm = (EditText) findViewById(R.id.e_parallelogramm);
-        EditText y_parallelogramm = (EditText) findViewById(R.id.y_parallelogramm);
+        a_parallelogramm = (EditText) findViewById(R.id.a_parallelogramm);
+        b_parallelogramm = (EditText) findViewById(R.id.b_parallelogramm);
+        h_parallelogramm = (EditText) findViewById(R.id.h_parallelogramm);
+        d1_parallelogramm = (EditText) findViewById(R.id.d1_parallelogramm);
+        d2_parallelogramm = (EditText) findViewById(R.id.d2_parallelogramm);
+        e_parallelogramm = (EditText) findViewById(R.id.e_parallelogramm);
+        y_parallelogramm = (EditText) findViewById(R.id.y_parallelogramm);
         Button button3 = (Button) findViewById (R.id.button3);
         Button back3 = (Button) findViewById(R.id.back3);
         reshenie_parallelogramm = new Intent(Parallelogramm.this, Reshenie.class); //создание новой активности
@@ -108,16 +110,72 @@ public class Parallelogramm extends AppCompatActivity {
                         }
                         parallelogrammD1D2E(d1,d2,e);
                     }
-                    if (s_parallelogramm!=0){
+                    //если площадь посчитанна
+                    if (s_parallelogramm>0){
                         //передача данных в другую активность
                         reshenie_parallelogramm.putExtra("s_parallelogramm", s_parallelogramm);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_parallelogramm);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или сторону и угол между сторонами", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor();
+                        } else if (a_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту или сторону и угол между сторонами", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor();
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor();
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагонали", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагоняль и угол между диагонялями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагоняль и угол между диагонялями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между сторонами", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        }  else if (h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && b_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_parallelogramm.getText().toString().isEmpty() && h_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между диагонялями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else{
+                            Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -172,5 +230,22 @@ public class Parallelogramm extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if ((a_parallelogramm.getText().toString().isEmpty() || b_parallelogramm.getText().toString().isEmpty()) && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()){
+            a_parallelogramm.setHintTextColor(Color.RED);
+            h_parallelogramm.setHintTextColor(Color.RED);
+        }
+        if (h_parallelogramm.getText().toString().isEmpty() && d1_parallelogramm.getText().toString().isEmpty() && d2_parallelogramm.getText().toString().isEmpty() && e_parallelogramm.getText().toString().isEmpty()) {
+            a_parallelogramm.setHintTextColor(Color.RED);
+            b_parallelogramm.setHintTextColor(Color.RED);
+            y_parallelogramm.setHintTextColor(Color.RED);
+        }
+        if (h_parallelogramm.getText().toString().isEmpty() && a_parallelogramm.getText().toString().isEmpty() && b_parallelogramm.getText().toString().isEmpty() && y_parallelogramm.getText().toString().isEmpty()) {
+            d1_parallelogramm.setHintTextColor(Color.RED);
+            d2_parallelogramm.setHintTextColor(Color.RED);
+            e_parallelogramm.setHintTextColor(Color.RED);
+        }
     }
 }

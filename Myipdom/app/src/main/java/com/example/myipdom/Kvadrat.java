@@ -58,13 +58,15 @@ public class Kvadrat extends AppCompatActivity {
                         p = Double.parseDouble(v);
                         kvadratP(p);
                     }
-                    if (s_kvadrat!=0){
+                    //если площадь посчитанна
+                    if (s_kvadrat>0){
                         //передача данных в другую активность
                         reshenie_kvadrat.putExtra("s_kvadrat", s_kvadrat);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_kvadrat);
                         finish();
                     }
+                    //иначе
                     else {
                         Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
                         toast.show();

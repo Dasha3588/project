@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,6 +18,7 @@ public class Trapetsiya extends AppCompatActivity {
     private double a, b, h, d1, d2, e, m; //переменные в которые зписываются основания, высота, диагонали, угол между диагоналями, средняя линия трапеции
     private String v; //временная переменная
     public Intent reshenie_trapetsiya; //новая активность
+    EditText a_trapetsiya, b_trapetsiya, h_trapetsiya, d1_trapetsiya, d2_trapetsiya, e_trapetsiya, m_trapetsiya; //EditText для эллементов фигуры
 
 
     @Override
@@ -24,13 +26,13 @@ public class Trapetsiya extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_trapetsiya);
         //связывание элементов по id
-        EditText a_trapetsiya = (EditText) findViewById(R.id.a_trapetsiya);
-        EditText b_trapetsiya = (EditText) findViewById(R.id.b_trapetsiya);
-        EditText h_trapetsiya = (EditText) findViewById(R.id.h_trapetsiya);
-        EditText d1_trapetsiya = (EditText) findViewById(R.id.d1_trapetsiya);
-        EditText d2_trapetsiya = (EditText) findViewById(R.id.d2_trapetsiya);
-        EditText e_trapetsiya = (EditText) findViewById(R.id.e_trapetsiya);
-        EditText m_trapetsiya = (EditText) findViewById(R.id.m_trapetsiya);
+        a_trapetsiya = (EditText) findViewById(R.id.a_trapetsiya);
+        b_trapetsiya = (EditText) findViewById(R.id.b_trapetsiya);
+        h_trapetsiya = (EditText) findViewById(R.id.h_trapetsiya);
+        d1_trapetsiya = (EditText) findViewById(R.id.d1_trapetsiya);
+        d2_trapetsiya = (EditText) findViewById(R.id.d2_trapetsiya);
+        e_trapetsiya = (EditText) findViewById(R.id.e_trapetsiya);
+        m_trapetsiya = (EditText) findViewById(R.id.m_trapetsiya);
         Button button6 = (Button) findViewById (R.id.button6);
         Button back6 = (Button) findViewById(R.id.back6);
         reshenie_trapetsiya = new Intent(Trapetsiya.this, Reshenie.class); //создание новой активности
@@ -88,16 +90,72 @@ public class Trapetsiya extends AppCompatActivity {
                         }
                         trapetsiyaD1D2E(d1,d2,e);
                     }
-                    if (s_trapetsiya!=0){
+                    //если площадь посчитанна
+                    if (s_trapetsiya>0){
                         //передача данных в другую активность
                         reshenie_trapetsiya.putExtra("s_trapetsiya", s_trapetsiya);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_trapetsiya);
                         finish();
                     }
+                    //иначе
                     else {
-                        Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
-                        toast.show();
+                        if (b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону и высоту", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() && h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону и высоту", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите стороны или средюю линию", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (b_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите сторону", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ и угол между диагоналями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ и угол между диагоналями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите угол между диагоналями", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагонали", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (a_trapetsiya.getText().toString().isEmpty() &&  b_trapetsiya.getText().toString().isEmpty() &&  h_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() && m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите диагональ", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else if (h_trapetsiya.getText().toString().isEmpty() &&  d1_trapetsiya.getText().toString().isEmpty() &&  d2_trapetsiya.getText().toString().isEmpty() &&  e_trapetsiya.getText().toString().isEmpty() &&  m_trapetsiya.getText().toString().isEmpty()){
+                            Toast toast = Toast.makeText(getApplicationContext(), "Введите высоту", Toast.LENGTH_SHORT);
+                            toast.show(); //всплывающие сообщение о том, каких данных не хватает
+                            setCollor(); //установка цвета недостающим данным
+                        } else {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
                     }
                 }
             }
@@ -152,5 +210,22 @@ public class Trapetsiya extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (d1_trapetsiya.getText().toString().isEmpty() && d2_trapetsiya.getText().toString().isEmpty() && e_trapetsiya.getText().toString().isEmpty() && m_trapetsiya.getText().toString().isEmpty()) {
+            a_trapetsiya.setHintTextColor(Color.RED);
+            b_trapetsiya.setHintTextColor(Color.RED);
+            h_trapetsiya.setHintTextColor(Color.RED);
+        }
+        if (b_trapetsiya.getText().toString().isEmpty() && d1_trapetsiya.getText().toString().isEmpty() && d2_trapetsiya.getText().toString().isEmpty() && a_trapetsiya.getText().toString().isEmpty() && e_trapetsiya.getText().toString().isEmpty()) {
+            h_trapetsiya.setHintTextColor(Color.RED);
+            m_trapetsiya.setHintTextColor(Color.RED);
+        }
+        if (h_trapetsiya.getText().toString().isEmpty() && a_trapetsiya.getText().toString().isEmpty() && b_trapetsiya.getText().toString().isEmpty() && m_trapetsiya.getText().toString().isEmpty()) {
+            d1_trapetsiya.setHintTextColor(Color.RED);
+            d2_trapetsiya.setHintTextColor(Color.RED);
+            e_trapetsiya.setHintTextColor(Color.RED);
+        }
     }
 }

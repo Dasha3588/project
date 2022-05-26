@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,19 +18,20 @@ public class RezhimStroitelstva extends AppCompatActivity {
     private double awall, hwall, swall, awindow, hwindow, swindow, k; //переменные в которые зписываются  ширина стены, высота стены, плоадь станы, ширина окна, высота окна, площадь окна, количество окон
     private String v; //временная переменная
     public Intent reshenie_rezhim_stroitelstva; //новая активность
+    EditText a_wall, h_wall, s_wall, a_window, h_window, s_window, k_window; //EditText для эллементов фигуры
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_rezhim_stroitelstva);
         //связывание элементов по id
-        EditText a_wall = (EditText) findViewById(R.id.a_wall);
-        EditText h_wall = (EditText) findViewById(R.id.h_wall);
-        EditText s_wall = (EditText) findViewById(R.id.s_wall);
-        EditText a_window = (EditText) findViewById(R.id.a_window);
-        EditText h_window = (EditText) findViewById(R.id.h_window);
-        EditText s_window = (EditText) findViewById(R.id.s_window);
-        EditText k_window = (EditText) findViewById(R.id.k_window);
+        a_wall = (EditText) findViewById(R.id.a_wall);
+        h_wall = (EditText) findViewById(R.id.h_wall);
+        s_wall = (EditText) findViewById(R.id.s_wall);
+        a_window = (EditText) findViewById(R.id.a_window);
+        h_window = (EditText) findViewById(R.id.h_window);
+        s_window = (EditText) findViewById(R.id.s_window);
+        k_window = (EditText) findViewById(R.id.k_window);
         Button back8 = (Button) findViewById(R.id.back8);
         Button button8 = (Button) findViewById (R.id.button8);
         reshenie_rezhim_stroitelstva = new Intent(RezhimStroitelstva.this, Reshenie.class); //создание новой активности
@@ -92,16 +94,19 @@ public class RezhimStroitelstva extends AppCompatActivity {
                         k = Double.parseDouble(v);
                         rezhimStroitelstvaAHSK(awall,hwall,swindow,k);
                     }
-                    if (s_rezhim_stroitelstva!=0){
+                    //если площадь посчитанна
+                    if (s_rezhim_stroitelstva>0){
                         //передача данных в другую активность
                         reshenie_rezhim_stroitelstva.putExtra("s_rezhim_stroitelstva", s_rezhim_stroitelstva);
                         //выполнение перехода на новую активность
                         startActivity(reshenie_rezhim_stroitelstva);
                         finish();
                     }
+                    //иначе
                     else {
                         Toast toast = Toast.makeText(getApplicationContext(), "Данные введены некорректно", Toast.LENGTH_SHORT);
                         toast.show();
+                        setCollor();
                     }
                 }
             }
@@ -169,5 +174,32 @@ public class RezhimStroitelstva extends AppCompatActivity {
             }
         });
         quitDialog.show();
+    }
+    //метод, который окрашевает недастоющие данные в красный
+    private void setCollor(){
+        if (s_wall.getText().toString().isEmpty() && s_window.getText().toString().isEmpty()) {
+            a_wall.setHintTextColor(Color.RED);
+            h_wall.setHintTextColor(Color.RED);
+            a_window.setHintTextColor(Color.RED);
+            h_window.setHintTextColor(Color.RED);
+            k_window.setHintTextColor(Color.RED);
+        }
+        if (a_wall.getText().toString().isEmpty() && h_wall.getText().toString().isEmpty() && s_window.getText().toString().isEmpty()) {
+            s_wall.setHintTextColor(Color.RED);
+            a_window.setHintTextColor(Color.RED);
+            h_window.setHintTextColor(Color.RED);
+            k_window.setHintTextColor(Color.RED);
+        }
+        if (s_wall.getText().toString().isEmpty() && a_window.getText().toString().isEmpty() && h_window.getText().toString().isEmpty()) {
+            a_wall.setHintTextColor(Color.RED);
+            h_wall.setHintTextColor(Color.RED);
+            s_window.setHintTextColor(Color.RED);
+            k_window.setHintTextColor(Color.RED);
+        }
+        if (a_wall.getText().toString().isEmpty() && h_wall.getText().toString().isEmpty() && a_window.getText().toString().isEmpty() && h_window.getText().toString().isEmpty()) {
+            s_wall.setHintTextColor(Color.RED);
+            s_window.setHintTextColor(Color.RED);
+            k_window.setHintTextColor(Color.RED);
+        }
     }
 }
